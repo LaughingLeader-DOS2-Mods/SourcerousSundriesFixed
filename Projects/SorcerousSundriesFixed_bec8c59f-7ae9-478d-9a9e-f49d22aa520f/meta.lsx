@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<save>
+    <header version="2" />
+    <version major="3" minor="6" revision="6" build="0" />
+    <region id="MetaData">
+        <node id="root">
+            <attribute id="Module" value="bec8c59f-7ae9-478d-9a9e-f49d22aa520f" type="23" />
+            <attribute id="Name" value="SorcerousSundriesFixed" type="23" />
+            <attribute id="Type" value="Add-on" type="23" />
+            <attribute id="UUID" value="59ef569d-84cb-46f2-8602-549cd8843703" type="23" />
+        </node>
+    </region>
+</save>
