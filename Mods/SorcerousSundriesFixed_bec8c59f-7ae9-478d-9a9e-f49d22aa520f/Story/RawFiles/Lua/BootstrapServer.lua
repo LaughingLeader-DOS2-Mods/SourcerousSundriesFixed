@@ -25,4 +25,37 @@ local function SessionLoading()
     end
 end
 
-Ext.RegisterListener("SessionLoading", SessionLoading)
+
+if Ext.IsDeveloperMode() then
+    Ext.RegisterListener("SessionLoading", SessionLoading)
+    Ext.RegisterConsoleCommand("sundriestest", function(command, level)
+        local host = CharacterGetHostCharacter()
+        local x,y,z = GetPosition(host)
+        if level == nil then
+            level = 1
+        end
+        -- Azure Flint for weapon upgrades
+        ItemTemplateAddTo("b0d72e19-6d37-4582-9008-98a486e0cf64", host, 1, 1)
+        
+        -- Sword Template
+        local sword = CreateItemTemplateAtPosition("374cf6c2-3606-49a9-875b-be0adf103807", x, y, z)
+        NRD_ItemCloneBegin(sword)
+        --NRD_ItemConstructBegin("374cf6c2-3606-49a9-875b-be0adf103807")
+        --NRD_ItemCloneResetProgression()
+        NRD_ItemCloneSetString("GenerationStatsId", "WPN_Sword_2H")
+        NRD_ItemCloneSetString("StatsEntryName", "WPN_Sword_2H")
+        NRD_ItemCloneSetInt("HasGeneratedStats", 1)
+        NRD_ItemCloneSetInt("GenerationLevel", level)
+        NRD_ItemCloneSetInt("StatsLevel", level)
+        NRD_ItemCloneSetInt("IsIdentified", 1)
+        NRD_ItemCloneSetString("ItemType", "Divine")
+        NRD_ItemCloneSetString("GenerationItemType", "Divine")
+        local item = NRD_ItemClone()
+        ItemToInventory(item, host, 1, 1, 1)
+        NRD_ItemSetIdentified(item, 1)
+        
+        local itemObj = Ext.GetItem(item).Stats
+        print("ComboCategory:", Ext.JsonStringify(itemObj.ComboCategory))
+        ItemRemove(sword)
+    end)
+end

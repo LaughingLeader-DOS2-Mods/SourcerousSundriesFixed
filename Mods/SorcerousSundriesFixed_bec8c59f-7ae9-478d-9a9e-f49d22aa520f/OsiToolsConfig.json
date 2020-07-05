@@ -1,5 +1,5 @@
 {
-    "RequiredExtensionVersion": 44,
+    "RequiredExtensionVersion": 49,
     "ModTable": "SorcerousSundriesFixed",
     "FeatureFlags": [
         "Lua"
