@@ -31,7 +31,7 @@
                         <node id="ModuleShortDesc">
                             <attribute id="Folder" value="CMP_LevelUpEquipment" type="30" />
                             <attribute id="MD5" value="" type="23" />
-                            <attribute id="Name" value="Shiny Gear" type="22" />
+                            <attribute id="Name" value="Sorcerous Sundries" type="22" />
                             <attribute id="UUID" value="a945eefa-530c-4bca-a29c-a51450f8e181" type="22" />
                             <attribute id="Version" value="268435456" type="4" />
                         </node>
@@ -40,7 +40,7 @@
                 <node id="ModuleInfo">
                     <attribute id="Author" value="" type="30" />
                     <attribute id="CharacterCreationLevelName" value="" type="22" />
-                    <attribute id="Description" value="Fixes the various issues with Sorcerous Sundries, and also makes it load like regular mods." type="30" />
+                    <attribute id="Description" value="Fixes the various compatibility issues with Sorcerous Sundries and makes it work with every modded item without any hard overrides.&lt;br&gt;Requires the Script Extender." type="30" />
                     <attribute id="DescriptionName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
                     <attribute id="DisplayName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
                     <attribute id="Folder" value="SorcerousSundriesFixed_bec8c59f-7ae9-478d-9a9e-f49d22aa520f" type="30" />
@@ -52,7 +52,7 @@
                     <attribute id="NumPlayers" value="2" type="1" />
                     <attribute id="PhotoBooth" value="" type="22" />
                     <attribute id="StartupLevelName" value="" type="22" />
-                    <attribute id="Tags" value="" type="30" />
+                    <attribute id="Tags" value="Quality of Life" type="30" />
                     <attribute id="Type" value="Add-on" type="22" />
                     <attribute id="UUID" value="bec8c59f-7ae9-478d-9a9e-f49d22aa520f" type="22" />
                     <attribute id="Version" value="268435456" type="4" />
@@ -65,6 +65,12 @@
                             <children>
                                 <node id="Target">
                                     <attribute id="Object" value="Story" type="22" />
+                                </node>
+                                <node id="Target">
+                                    <attribute id="Object" value="GM" type="22" />
+                                </node>
+                                <node id="Target">
+                                    <attribute id="Object" value="Arena" type="22" />
                                 </node>
                             </children>
                         </node>

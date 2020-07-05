@@ -58,4 +58,40 @@ if Ext.IsDeveloperMode() then
         print("ComboCategory:", Ext.JsonStringify(itemObj.ComboCategory))
         ItemRemove(sword)
     end)
+    local recipes = {
+        "UpgradeWeapon_Common_LUE_Azure_Flint",
+        "UpgradeWeapon_Uncommon_LUE_Azure_Flint",
+        "UpgradeWeapon_Rare_LUE_Azure_Flint",
+        "UpgradeWeapon_Epic_LUE_Azure_Flint",
+        "UpgradeWeapon_Divine_LUE_Azure_Flint",
+        "UpgradeWeapon_Legendary_LUE_Azure_Flint",
+        "UpgradeWeapon_Unique_LUE_Azure_Flint",
+        "UpgradeShield_Common_LUE_Diamond_Dust",
+        "UpgradeShield_Uncommon_LUE_Diamond_Dust",
+        "UpgradeShield_Rare_LUE_Diamond_Dust",
+        "UpgradeShield_Epic_LUE_Diamond_Dust",
+        "UpgradeShield_Divine_LUE_Diamond_Dust",
+        "UpgradeShield_Legendary_LUE_Diamond_Dust",
+        "UpgradeShield_Unique_LUE_Diamond_Dust",
+        "UpgradeArmour_Common_LUE_Diamond_Dust",
+        "UpgradeArmour_Uncommon_LUE_Diamond_Dust",
+        "UpgradeArmour_Rare_LUE_Diamond_Dust",
+        "UpgradeArmour_Epic_LUE_Diamond_Dust",
+        "UpgradeArmour_Divine_LUE_Diamond_Dust",
+        "UpgradeArmour_Legendary_LUE_Diamond_Dust",
+        "UpgradeArmour_Unique_LUE_Diamond_Dust",
+        "UpgradeJewelry_Common_LUE_Quicksilver",
+        "UpgradeJewelry_Uncommon_LUE_Quicksilver",
+        "UpgradeJewelry_Rare_LUE_Quicksilver",
+        "UpgradeJewelry_Epic_LUE_Quicksilver",
+        "UpgradeJewelry_Divine_LUE_Quicksilver",
+        "UpgradeJewelry_Legendary_LUE_Quicksilver",
+        "UpgradeJewelry_Unique_LUE_Quicksilver",
+    }
+    Ext.RegisterConsoleCommand("sundriesrecipes", function(command)
+        local host = CharacterGetHostCharacter()
+        for _,recipe in ipairs(recipes) do
+            CharacterUnlockRecipe(host, recipe, 1)
+        end
+    end)
 end

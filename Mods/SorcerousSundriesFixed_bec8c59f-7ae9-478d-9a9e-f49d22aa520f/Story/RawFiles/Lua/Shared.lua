@@ -1,7 +1,5 @@
-local giftBagFiles = {
+local giftBagTextFiles = {
     ["Public/CMP_LevelUpEquipment/Stats/Generated/Data/Armor.txt"] = "Public/SorcerousSundriesFixed_bec8c59f-7ae9-478d-9a9e-f49d22aa520f/Stats/Generated/Data/LLSUNDRIES_Armor.txt",
-    --["Public/CMP_LevelUpEquipment/Stats/Generated/Data/ItemProgressionVisuals.txt"] = "",
-    --["Public/CMP_LevelUpEquipment/Stats/Generated/Data/Object.txt"] = "",
     ["Public/CMP_LevelUpEquipment/Stats/Generated/Data/Shield.txt"] = "Public/SorcerousSundriesFixed_bec8c59f-7ae9-478d-9a9e-f49d22aa520f/Stats/Generated/Data/LLSUNDRIES_Shield.txt",
     ["Public/CMP_LevelUpEquipment/Stats/Generated/Data/Weapon.txt"] = "Public/SorcerousSundriesFixed_bec8c59f-7ae9-478d-9a9e-f49d22aa520f/Stats/Generated/Data/LLSUNDRIES_Weapon.txt",
 }
@@ -9,14 +7,12 @@ local giftBagFiles = {
 --- Reverts all of the Sundries overrides to all weapon/armor/shield stat files.
 --- Sundries overrides everythign, including NPC stats, to add combo categories.
 --- We can just add the categories with the extender to maintain compatibility instead.
-for file,override in pairs(giftBagFiles) do
+for file,override in pairs(giftBagTextFiles) do
     Ext.AddPathOverride(file, override)
     Ext.Print("[SorcerousSundriesFixed:Shared.lua] Overriding gift bag file ("..file..") with ("..override..").")
 end
 
---Ext.RegisterListener("ModuleResume", RemoveGiftBagOverrides)
-
-local BLACKLIST = {
+local STAT_BLACKLIST = {
     NoWeapon = true,
     NoShield = true,
 }
@@ -63,7 +59,7 @@ local function IgnoreWeapon(stat)
 end
 
 local function IgnoreStat(stat, statType)
-    if string.sub(stat, 1, 1) == "_" or BLACKLIST[stat] == true then -- Ignore NPC weapons
+    if string.sub(stat, 1, 1) == "_" or STAT_BLACKLIST[stat] == true then -- Ignore NPC weapons
         return true
     end
     local modifierType = Ext.StatGetAttribute(stat, "ModifierType")
@@ -86,7 +82,7 @@ end
 
 local function AddComboCategories()
 	Ext.Print("===================================================================")
-	Ext.Print("[SorcerousSundriesFixed:Bootstrap.lua] Adding crafting categories to all non-NPC equipment stats.")
+	Ext.Print("[SorcerousSundriesFixed:Shared.lua] Adding crafting categories to all non-NPC equipment stats.")
     local totalOverrides = 0
     for statType,v in pairs(comboCategories) do
         local stats = Ext.GetStatEntries(statType)
@@ -104,12 +100,12 @@ local function AddComboCategories()
                     if not HasComboCategory(combocategory, addCategory) then
                         if combocategory ~= nil and combocategory ~= "" then
                             combocategory[#combocategory+1] = addCategory
-                            --Ext.StatSetAttribute(stat, "ComboCategory", combocategory)
+                            Ext.StatSetAttribute(stat, "ComboCategory", combocategory)
                             --Ext.Print("[SorcerousSundriesFixed:Shared.lua] Added "..addCategory.." to ("..stat..").")
                            -- Ext.Print(Ext.JsonStringify(combocategory))
                             totalOverrides = totalOverrides + 1
                         else
-                            --Ext.StatSetAttribute(stat, "ComboCategory", {addCategory})
+                            Ext.StatSetAttribute(stat, "ComboCategory", {addCategory})
                             --Ext.Print("[SorcerousSundriesFixed:Shared.lua] Set ComboCategory for ("..stat..") to ("..addCategory..").")
                             totalOverrides = totalOverrides + 1
                         end
@@ -120,11 +116,8 @@ local function AddComboCategories()
     end
 	Ext.Print("[SorcerousSundriesFixed:Bootstrap.lua] Added upgrade categories to ("..tostring(totalOverrides)..") stats.")
     Ext.Print("===================================================================")
-
-    Ext.Print("_Swords check:")
-    Ext.Print(Ext.StatGetAttribute("_Swords", "WeaponType"))
 end
 
 Ext.RegisterListener("StatsLoaded", AddComboCategories)
---Ext.RegisterListener("ModuleLoading", AddComboCategories)
 Ext.RegisterListener("ModuleResume", AddComboCategories)
+--Ext.RegisterListener("ModuleLoading", AddComboCategories)

@@ -2,6 +2,7 @@
     "RequiredExtensionVersion": 49,
     "ModTable": "SorcerousSundriesFixed",
     "FeatureFlags": [
+        "OsirisExtensions",
         "Lua"
     ]
 }
