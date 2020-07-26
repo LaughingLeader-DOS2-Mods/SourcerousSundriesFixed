@@ -9,7 +9,7 @@ local giftBagTextFiles = {
 --- We can just add the categories with the extender to maintain compatibility instead.
 for file,override in pairs(giftBagTextFiles) do
     Ext.AddPathOverride(file, override)
-    Ext.Print("[SorcerousSundriesFixed:Shared.lua] Overriding gift bag file ("..file..") with ("..override..").")
+    --Ext.Print("[SorcerousSundriesFixed:Shared.lua] Overriding gift bag file ("..file..") with ("..override..").")
 end
 
 local STAT_BLACKLIST = {
@@ -81,8 +81,8 @@ local function HasComboCategory(categoryTable, category)
 end
 
 local function AddComboCategories()
-	Ext.Print("===================================================================")
-	Ext.Print("[SorcerousSundriesFixed:Shared.lua] Adding crafting categories to all non-NPC equipment stats.")
+	--Ext.Print("===================================================================")
+	--Ext.Print("[SorcerousSundriesFixed] Adding crafting categories to all non-NPC equipment stats.")
     local totalOverrides = 0
     for statType,v in pairs(comboCategories) do
         local stats = Ext.GetStatEntries(statType)
@@ -114,10 +114,10 @@ local function AddComboCategories()
             end
         end
     end
-	Ext.Print("[SorcerousSundriesFixed:Bootstrap.lua] Added upgrade categories to ("..tostring(totalOverrides)..") stats.")
-    Ext.Print("===================================================================")
+	Ext.Print("[SorcerousSundriesFixed] Added upgrade categories to ("..tostring(totalOverrides)..") stats.")
+    --Ext.Print("===================================================================")
 end
 
 Ext.RegisterListener("StatsLoaded", AddComboCategories)
-Ext.RegisterListener("ModuleResume", AddComboCategories)
+--Ext.RegisterListener("ModuleResume", AddComboCategories)
 --Ext.RegisterListener("ModuleLoading", AddComboCategories)

@@ -1,0 +1,19 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+KBSECTION
+
+// [BEGIN_NO_OSITOOLS]
+IF
+GameStarted(_Region, _)
+AND
+IsGameLevel(_Region, 1)
+AND
+CharacterGetHostCharacter(_Host)
+THEN
+OpenMessageBox(_Host, "LLSUNDRIES_MissingScriptExtender");
+// [END_NO_OSITOOLS]
+
+EXITSECTION
+ENDEXITSECTION
+ParentTargetEdge "__Start"

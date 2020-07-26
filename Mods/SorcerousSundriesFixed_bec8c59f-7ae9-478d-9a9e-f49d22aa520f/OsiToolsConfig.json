@@ -3,6 +3,7 @@
     "ModTable": "SorcerousSundriesFixed",
     "FeatureFlags": [
         "OsirisExtensions",
-        "Lua"
+        "Lua",
+        "Preprocessor"
     ]
 }
