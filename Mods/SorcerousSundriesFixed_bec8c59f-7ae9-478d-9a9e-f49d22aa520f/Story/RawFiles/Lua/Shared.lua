@@ -41,7 +41,7 @@ local comboCategories = {
 }
 
 local function StartsWith(target,str)
-    return string.sub(target,0,string.len(str))==str
+    return string.sub(target,1,string.len(str))==str
 end
 
 local function IgnoreWeapon(stat)
@@ -98,15 +98,12 @@ local function AddComboCategories()
                 if addCategory ~= nil then
                     local combocategory = Ext.StatGetAttribute(stat, "ComboCategory")
                     if not HasComboCategory(combocategory, addCategory) then
-                        if combocategory ~= nil and combocategory ~= "" then
+                        if type(combocategory) == "table" then
                             combocategory[#combocategory+1] = addCategory
                             Ext.StatSetAttribute(stat, "ComboCategory", combocategory)
-                            --Ext.Print("[SorcerousSundriesFixed:Shared.lua] Added "..addCategory.." to ("..stat..").")
-                           -- Ext.Print(Ext.JsonStringify(combocategory))
                             totalOverrides = totalOverrides + 1
                         else
                             Ext.StatSetAttribute(stat, "ComboCategory", {addCategory})
-                            --Ext.Print("[SorcerousSundriesFixed:Shared.lua] Set ComboCategory for ("..stat..") to ("..addCategory..").")
                             totalOverrides = totalOverrides + 1
                         end
                     end
