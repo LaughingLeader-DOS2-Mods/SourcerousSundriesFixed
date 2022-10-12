@@ -1,6 +1,6 @@
 Ext.Require("Shared.lua")
 
-if Ext.IsDeveloperMode() then
+if Ext.Debug.IsDeveloperMode() then
     Ext.RegisterConsoleCommand("sundriestest", function(command, level)
         local host = CharacterGetHostCharacter()
         local x,y,z = GetPosition(host)
@@ -27,8 +27,8 @@ if Ext.IsDeveloperMode() then
         ItemToInventory(item, host, 1, 1, 1)
         --NRD_ItemSetIdentified(item, 1)
         
-        local itemObj = Ext.GetItem(item).Stats
-        print("ComboCategory:", Ext.JsonStringify(itemObj.ComboCategory))
+        local itemObj = Ext.Entity.GetItem(item).Stats
+        Ext.Utils.Print("ComboCategory:", Ext.Json.Stringify(itemObj.ComboCategory))
         --ItemRemove(sword)
     end)
     local recipes = {

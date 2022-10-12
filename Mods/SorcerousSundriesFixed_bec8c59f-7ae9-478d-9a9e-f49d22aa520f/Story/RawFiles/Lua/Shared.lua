@@ -5,12 +5,19 @@ local giftBagTextFiles = {
 }
 
 --- Reverts all of the Sundries overrides to all weapon/armor/shield stat files.
---- Sundries overrides everythign, including NPC stats, to add combo categories.
+--- Sundries overrides everything, including NPC stats, to add combo categories.
 --- We can just add the categories with the extender to maintain compatibility instead.
 for file,override in pairs(giftBagTextFiles) do
-    Ext.AddPathOverride(file, override)
+    Ext.IO.AddPathOverride(file, override)
     --Ext.Print("[SorcerousSundriesFixed:Shared.lua] Overriding gift bag file ("..file..") with ("..override..").")
 end
+
+Ext.Events.SessionLoaded:Subscribe(function (e)
+    if Mods.LeaderLib and Mods.LeaderLib.Vars and Mods.LeaderLib.Vars.GetModInfoIgnoredMods then
+        --Unignore Sorcerous Sundries since we got rid of all the stat overrides
+        Mods.LeaderLib.Vars.GetModInfoIgnoredMods["a945eefa-530c-4bca-a29c-a51450f8e181"] = false
+    end
+end)
 
 local STAT_BLACKLIST = {
     NoWeapon = true,
@@ -44,29 +51,34 @@ local function StartsWith(target,str)
     return string.sub(target,1,string.len(str))==str
 end
 
-local function IgnoreWeapon(stat)
-    local itemgroup = Ext.StatGetAttribute(stat, "ItemGroup")
+---@param statID string
+---@param stat StatEntryWeapon
+local function IgnoreWeapon(statID, stat)
+    local itemgroup = stat.ItemGroup
     if itemgroup == nil or itemgroup == "" then
         return true
     end
     for word,b in pairs(WEAPON_PREFIX_BLACKLIST) do
         if b == true then
             --if string.find(stat, word) then return true end
-            if StartsWith(stat, word) then return true end
+            if StartsWith(statID, word) then return true end
         end
 	end
 	return false
 end
 
-local function IgnoreStat(stat, statType)
-    if string.sub(stat, 1, 1) == "_" or STAT_BLACKLIST[stat] == true then -- Ignore NPC weapons
+---@param statID string
+---@param stat StatEntryWeapon
+---@param statType string
+local function IgnoreStat(statID, stat, statType)
+    if string.sub(statID, 1, 1) == "_" or STAT_BLACKLIST[statID] == true then -- Ignore NPC weapons
         return true
     end
-    local modifierType = Ext.StatGetAttribute(stat, "ModifierType")
+    local modifierType = stat.ModifierType
     if modifierType ~= nil and modifierType ~= "Item" then -- Ignore Boost, Skill, etc
         return true
     end
-    if statType == "Weapon" and IgnoreWeapon(stat) then
+    if statType == "Weapon" and IgnoreWeapon(statID, stat) then
         return true
     end
     return false
@@ -85,25 +97,26 @@ local function AddComboCategories()
 	--Ext.Print("[SorcerousSundriesFixed] Adding crafting categories to all non-NPC equipment stats.")
     local totalOverrides = 0
     for statType,v in pairs(comboCategories) do
-        local stats = Ext.GetStatEntries(statType)
-        for i,stat in pairs(stats) do
-            if not IgnoreStat(stat, statType) then
+        local stats = Ext.Stats.GetStats(statType)
+        for i,statID in pairs(stats) do
+            local stat = Ext.Stats.Get(statID, nil, false)
+            if not IgnoreStat(statID, stat, statType) then
                 local addCategory = nil
                 if type(v) == "table" then
-                    local slot = Ext.StatGetAttribute(stat, "Slot")
+                    local slot = stat.Slot
                     addCategory = v[slot]
                 else
                     addCategory = v
                 end
                 if addCategory ~= nil then
-                    local combocategory = Ext.StatGetAttribute(stat, "ComboCategory")
+                    local combocategory = stat.ComboCategory
                     if not HasComboCategory(combocategory, addCategory) then
                         if type(combocategory) == "table" then
                             combocategory[#combocategory+1] = addCategory
-                            Ext.StatSetAttribute(stat, "ComboCategory", combocategory)
+                            stat.ComboCategory = combocategory
                             totalOverrides = totalOverrides + 1
                         else
-                            Ext.StatSetAttribute(stat, "ComboCategory", {addCategory})
+                            stat.ComboCategory = {addCategory}
                             totalOverrides = totalOverrides + 1
                         end
                     end
@@ -111,10 +124,10 @@ local function AddComboCategories()
             end
         end
     end
-	Ext.Print("[SorcerousSundriesFixed] Added upgrade categories to ("..tostring(totalOverrides)..") stats.")
+	Ext.Utils.Print("[SorcerousSundriesFixed] Added upgrade categories to ("..tostring(totalOverrides)..") stats.")
     --Ext.Print("===================================================================")
 end
 
-Ext.RegisterListener("StatsLoaded", AddComboCategories)
+Ext.Events.StatsLoaded:Subscribe(AddComboCategories)
 --Ext.RegisterListener("ModuleResume", AddComboCategories)
 --Ext.RegisterListener("ModuleLoading", AddComboCategories)

@@ -1,5 +1,5 @@
 {
-    "RequiredExtensionVersion": 55,
+    "RequiredExtensionVersion": 57,
     "ModTable": "SorcerousSundriesFixed",
     "FeatureFlags": [
         "OsirisExtensions",
