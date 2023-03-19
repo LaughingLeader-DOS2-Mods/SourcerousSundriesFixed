@@ -1,6 +1,9 @@
 # Sorcerous Sundries - Fixed 
 
 This mod fixes the various compatibility issues with the Sorcerous Sundries gift bag, and makes it work with regular and mod-added item.
+
+[Download the latest release here.](https://github.com/LaughingLeader-DOS2-Mods/SourcerousSundriesFixed/releases/latest/download/SorcerousSundriesFixed_Latest.zip)
+
 ## Requirements 
 
 [Norbyte's Divinity Script Extender](https://github.com/Norbyte/ositools/releases/latest) is required for this mod to work.
